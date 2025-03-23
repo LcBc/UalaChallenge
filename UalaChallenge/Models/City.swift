@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct City: Codable, Equatable {
+struct City: Codable, Equatable, Hashable {
 
     let name: String
     let id: Int
@@ -24,4 +24,8 @@ struct City: Codable, Equatable {
     static func == (lhs: City, rhs: City) -> Bool {
         lhs.id == rhs.id
     }
+
+    func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
 }

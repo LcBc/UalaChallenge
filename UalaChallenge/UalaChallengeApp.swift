@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct UalaChallengeApp: App {
+struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CitiesListView(viewModel: CityListViewModelImpl())
         }
     }
 }

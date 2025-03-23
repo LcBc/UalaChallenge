@@ -309,6 +309,29 @@ final class CityApiTest: XCTestCase {
         XCTAssertTrue(isFavorite)
     }
 
+    func testAddDuplicateCityToFavorites() async throws {
+        // Given
+        let city =  City(
+            name: "Hurzuf",
+            id: 707860,
+            country: "UA",
+            coordinates: Coordinates(
+                latitude: 44.549999,
+                longitude: 34.283333
+            )
+        )
+
+        try await cityService.addCityToFavorites(city)
+        try await cityService.addCityToFavorites(city)
+        // When
+        let favoriteCities = try await cityService.fetchFavoriteCities()
+
+        // Then
+        let isFavorite = try await cityService.isCityInFavorites(city)
+        XCTAssertTrue(isFavorite)
+        XCTAssertEqual(favoriteCities.count, 1)
+    }
+
     func testRemoveCityFromFavorites() async throws {
         // Given
         let city =  City(
