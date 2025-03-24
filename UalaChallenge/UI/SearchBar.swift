@@ -32,6 +32,6 @@ struct SearchBar: View {
             .padding(.horizontal, 10)
         }
         .padding(.top, 8)
-        .background(Color(UIColor.systemBackground)) // Ensures the background extends to the edges.
+        .background(Color(UIColor.systemBackground))
     }
 }

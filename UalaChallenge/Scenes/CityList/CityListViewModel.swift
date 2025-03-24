@@ -11,6 +11,7 @@ import Foundation
 
 @MainActor
 protocol CityListViewModel {
+    var selectedCity: City? { get set }
     var filteredCities: [City] { get }
     var errorMessage: String? { get }
     var showFavoritesOnly: Bool { get set }
@@ -29,6 +30,8 @@ protocol CityListViewModel {
 final class CityListViewModelImpl: ObservableObject, CityListViewModel, TestableNamespaceConvertible {
 
     // public funcs
+    @Published
+    var selectedCity: City?
     @Published
     private(set) var filteredCities: [City] = []
     @Published

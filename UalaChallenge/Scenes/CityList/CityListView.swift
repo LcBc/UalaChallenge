@@ -7,50 +7,81 @@
 
 import SwiftUI
 
-struct CitiesListView: View {
+struct CityListView: View {
+
     @ObservedObject var viewModel: CityListViewModelImpl
     @State private var searchText = ""
-    @State private var selectedCity: City?
+    var showHideButton: Bool
+    var toggleListVisibility: (() -> Void)?
 
     var body: some View {
-        NavigationStack {
-            VStack {
+        VStack {
+            HStack{
                 SearchBar(text: $searchText)
-                Toggle("Show Favorites Only", isOn: $viewModel.showFavoritesOnly).padding(.horizontal)
-                Text("Results: \(viewModel.filteredCities.count)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal)
-                ScrollView {
-                    LazyVStack(spacing: 0) {
-                        ForEach(viewModel.filteredCities, id: \.id) { city in
-                            NavigationLink(value: city) {
-                                CityCell(city: city, viewModel: viewModel)
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 4)
-                            }
-                        }
-                    }
-                    .background(Color(UIColor.systemGroupedBackground))
-                    .navigationDestination(for: City.self) { city in
-                        EmptyView()
+                if showHideButton,
+                   let toggle = toggleListVisibility {
+                    Button(action: toggle) {
+                        Image(systemName: "sidebar.leading")
+                            .padding()
                     }
                 }
-                .background(Color(UIColor.systemGroupedBackground))
-            }.onChange(of: searchText) {
-                viewModel.searchCity(text: searchText)
-            }.navigationTitle("Cities")
+            } .background(Color(UIColor.systemBackground))
+            Toggle(
+                "Show Favorites Only",
+                isOn: $viewModel.showFavoritesOnly
+            )
+            .padding(.horizontal)
+            .background(Color(UIColor.systemBackground))
+            Text(
+                "Results: \(viewModel.filteredCities.count)"
+            )
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+            .padding(.horizontal)
+            ScrollView {
+                LazyVStack(
+                    spacing: 0
+                ) {
+                    ForEach(
+                        viewModel.filteredCities, id: \.id
+                    ) { city in
+                        Button(
+                            action: {
+                                viewModel.selectedCity = city
+                            }
+                        ) {
+                            CityCell(
+                                city: city,
+                                viewModel: viewModel
+                            )
+                            .padding(.horizontal)
+                            .padding(.vertical, 4)
+                        }
+                    }
+                }
+                .background(
+                    Color(
+                        UIColor.systemGroupedBackground
+                    )
+                )
+            }
+            .background(Color(UIColor.systemBackground))
+        }.onChange(
+            of: searchText
+        ) {
+            viewModel.searchCity(text: searchText)
         }
-        .background(Color(UIColor.systemGroupedBackground))
         .onAppear {
             Task {
                 try? await viewModel.getCities()
             }
         }
+        .background(Color(UIColor.systemBackground))
     }
 }
 
 struct CitiesListView_Previews: PreviewProvider {
+
     static var previews: some View {
         let mockService = MockCityApiService()
         mockService.cities = [
@@ -59,7 +90,14 @@ struct CitiesListView_Previews: PreviewProvider {
         ]
         mockService.favoriteCities = [1]
 
-        let viewModel = CityListViewModelImpl(cityApiService: mockService)
-        return CitiesListView(viewModel: viewModel)
+        let viewModel = CityListViewModelImpl(
+            cityApiService: mockService
+        )
+        return  NavigationStack {
+
+            CityListView(
+                viewModel: viewModel, showHideButton: false
+            )
+        }
     }
 }
