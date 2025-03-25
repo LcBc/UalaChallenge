@@ -10,11 +10,11 @@ import CoreData
 import Foundation
 
 @MainActor
-protocol CityListViewModel {
-    var selectedCity: City? { get set }
+protocol CityListViewModel: ObservableObject {
+    var selectedCity: City? { get }
     var filteredCities: [City] { get }
     var errorMessage: String? { get }
-    var showFavoritesOnly: Bool { get set }
+    var showFavoritesOnly: Bool { get  }
     @discardableResult
     func getCities() async throws -> Task<Void, Never>?
     @discardableResult
@@ -25,23 +25,21 @@ protocol CityListViewModel {
     func removeFromFavorite(city: City) async throws -> Task<Void, Never>?
     func isFavorite(city: City) async throws -> Task<Bool, Never>?
     func searchCity(text: String)
+    func setSelectedCity(_ city: City?)
+    func toggleShowFavoritesOnly()
 }
 
 final class CityListViewModelImpl: ObservableObject, CityListViewModel, TestableNamespaceConvertible {
 
     // public funcs
     @Published
-    var selectedCity: City?
+    private(set) var selectedCity: City?
     @Published
     private(set) var filteredCities: [City] = []
     @Published
     private(set) var errorMessage: String?
     @Published
-    var showFavoritesOnly: Bool = false {
-        didSet {
-            searchCity(text: lastSearchText)
-        }
-    }
+    private(set) var showFavoritesOnly: Bool = false
 
     //private variables
     private var cities: [City] = []
@@ -189,6 +187,14 @@ final class CityListViewModelImpl: ObservableObject, CityListViewModel, Testable
                 }
             }
         }
+    }
+    func setSelectedCity(_ city: City?) {
+        selectedCity = city
+    }
+
+    func toggleShowFavoritesOnly() {
+        showFavoritesOnly.toggle()
+        searchCity(text: lastSearchText)
     }
 }
 

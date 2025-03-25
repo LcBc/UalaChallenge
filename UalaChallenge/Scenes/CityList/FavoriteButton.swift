@@ -6,10 +6,9 @@
 //
 import SwiftUI
 
-struct FavoriteButton: View {
+struct FavoriteButton<ViewModel>: View where ViewModel: CityListViewModel {
     var city: City
-    @ObservedObject var viewModel: CityListViewModelImpl
-
+    @ObservedObject var viewModel: ViewModel
     @State private var isFavorite: Bool = false
 
     var body: some View {

@@ -60,7 +60,7 @@ final class CityListViewModelTests: XCTestCase {
         await initialTasks()
 
         // When
-        viewModel.showFavoritesOnly = true
+        viewModel.toggleShowFavoritesOnly()
 
         XCTAssertNotNil(viewModel.testable.getSearchTask)
     }
@@ -109,7 +109,7 @@ final class CityListViewModelTests: XCTestCase {
 
         // When
         try await viewModel.getFavoriteCities()?.value
-        viewModel.showFavoritesOnly = true
+        viewModel.toggleShowFavoritesOnly()
         await viewModel.testable.getSearchTask?.value
 
         // Then
@@ -180,7 +180,7 @@ final class CityListViewModelTests: XCTestCase {
         await initialTasks()
         let city = City(name: "New York", id: 1, country: "USA", coordinates: Coordinates(latitude: 40.7128, longitude: -74.0060))
         mockCityApiService.favoriteCities = [1]
-        viewModel.showFavoritesOnly = true
+        viewModel.toggleShowFavoritesOnly()
         // When
         try await viewModel.removeFromFavorite(city: city)?.value
 
@@ -249,7 +249,6 @@ final class CityListViewModelTests: XCTestCase {
         ]
         mockCityApiService.cities = cities
         mockCityApiService.favoriteCities = [1]
-        viewModel.showFavoritesOnly = false
         await viewModel.testable.getSearchTask?.value
         try await viewModel.getCities()?.value
 
@@ -272,7 +271,6 @@ final class CityListViewModelTests: XCTestCase {
         ]
         mockCityApiService.cities = cities
         mockCityApiService.favoriteCities = [1]
-        viewModel.showFavoritesOnly = false
         await viewModel.testable.getSearchTask?.value
         try await viewModel.getCities()?.value
 
@@ -296,7 +294,6 @@ final class CityListViewModelTests: XCTestCase {
         mockCityApiService.cities = cities
         try await viewModel.getCities()?.value
         mockCityApiService.favoriteCities = [1]
-        viewModel.showFavoritesOnly = false
         await viewModel.testable.getSearchTask?.value
         // When
         viewModel.searchCity(text: "")
@@ -318,7 +315,6 @@ final class CityListViewModelTests: XCTestCase {
         mockCityApiService.cities = cities
         try await viewModel.getCities()?.value
         mockCityApiService.favoriteCities = [1]
-        viewModel.showFavoritesOnly = false
         await viewModel.testable.getSearchTask?.value
 
         // When
@@ -341,7 +337,7 @@ final class CityListViewModelTests: XCTestCase {
         try await viewModel.getCities()?.value
         mockCityApiService.favoriteCities = [1]
         try await viewModel.getFavoriteCities()?.value
-        viewModel.showFavoritesOnly = true
+        viewModel.toggleShowFavoritesOnly()
         await viewModel.testable.getSearchTask?.value
         // When
         viewModel.searchCity(text: "New")
@@ -364,7 +360,7 @@ final class CityListViewModelTests: XCTestCase {
         try await viewModel.getCities()?.value
         mockCityApiService.favoriteCities = [1]
         try await viewModel.getFavoriteCities()?.value
-        viewModel.showFavoritesOnly = true
+        viewModel.toggleShowFavoritesOnly()
         await viewModel.testable.getSearchTask?.value
         // When
         viewModel.searchCity(text: "neW")
@@ -387,7 +383,7 @@ final class CityListViewModelTests: XCTestCase {
         try await viewModel.getCities()?.value
         mockCityApiService.favoriteCities = [1,3]
         try await viewModel.getFavoriteCities()?.value
-        viewModel.showFavoritesOnly = true
+        viewModel.toggleShowFavoritesOnly()
         await viewModel.testable.getSearchTask?.value
         // When
         viewModel.searchCity(text: "")
@@ -410,7 +406,7 @@ final class CityListViewModelTests: XCTestCase {
         try await viewModel.getCities()?.value
         mockCityApiService.favoriteCities = [1]
         try await viewModel.getFavoriteCities()?.value
-        viewModel.showFavoritesOnly = true
+        viewModel.toggleShowFavoritesOnly()
         await viewModel.testable.getSearchTask?.value
 
         // When

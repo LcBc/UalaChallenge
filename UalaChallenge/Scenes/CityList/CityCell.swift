@@ -6,9 +6,10 @@
 //
 import SwiftUI
 
-struct CityCell: View {
+struct CityCell<ViewModel>: View where ViewModel: CityListViewModel {
     let city: City
-    @ObservedObject var viewModel: CityListViewModelImpl
+    @ObservedObject var viewModel: ViewModel
+    @State private var showWebView = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -26,6 +27,14 @@ struct CityCell: View {
                      .font(.caption)
                      .foregroundColor(.gray)
                  Spacer()
+                 Button(action: {
+                     showWebView.toggle()
+                 }) {
+                     Image(systemName: "info.circle")
+                         .foregroundColor(.blue)
+                 }.sheet(isPresented: $showWebView) {
+                     WebView(url: URL(string: "https://www.google.com/search?q=\(city.name)+\(city.country)")!)
+                 }
              }
          }
         .padding()

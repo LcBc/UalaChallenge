@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct CityListView: View {
+struct CityListView<ViewModel>: View where ViewModel: CityListViewModel {
 
-    @ObservedObject var viewModel: CityListViewModelImpl
+    @ObservedObject var viewModel: ViewModel
     @State private var searchText = ""
     var showHideButton: Bool
     var toggleListVisibility: (() -> Void)?
@@ -27,9 +27,15 @@ struct CityListView: View {
                 }
             } .background(Color(UIColor.systemBackground))
             Toggle(
-                "Show Favorites Only",
-                isOn: $viewModel.showFavoritesOnly
-            )
+                isOn: Binding(
+                    get: { viewModel.showFavoritesOnly },
+                    set: { _ in
+                        viewModel.toggleShowFavoritesOnly()
+                    }
+                )
+            ) {
+                Text("Show Favorites Only")
+            }
             .padding(.horizontal)
             .background(Color(UIColor.systemBackground))
             Text(
@@ -47,7 +53,7 @@ struct CityListView: View {
                     ) { city in
                         Button(
                             action: {
-                                viewModel.selectedCity = city
+                                viewModel.setSelectedCity(city)
                             }
                         ) {
                             CityCell(

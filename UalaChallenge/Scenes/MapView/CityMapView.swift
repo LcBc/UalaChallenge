@@ -10,8 +10,8 @@ import MapKit
 
 struct CityMapView: View {
     let city: City
-
     @State private var cameraPosition: MapCameraPosition
+    @State private var showWebView = false
 
     init(city: City) {
         self.city = city
@@ -40,12 +40,18 @@ struct CityMapView: View {
                     longitude: city.coordinates.longitude
                 )
             ) {
-                VStack {
-                    Image(systemName: "mappin.circle.fill")
-                        .font(.title)
-                        .foregroundColor(.red)
-                    Text(city.name)
-                        .fixedSize()
+                Button(action: {
+                    showWebView.toggle()
+                }) {
+                    VStack {
+                        Image(systemName: "mappin.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.red)
+                        Text(city.name)
+                            .fixedSize()
+                    }
+                }.sheet(isPresented: $showWebView) {
+                    WebView(url: URL(string: "https://www.google.com/search?q=\(city.name)+\(city.country)")!)
                 }
             }
         }.onAppear {
@@ -57,16 +63,16 @@ struct CityMapView: View {
         .navigationTitle(city.name)
         .navigationBarTitleDisplayMode(.inline)
     }
-
+    
     private func updateCameraPosition() {
-          cameraPosition = .region(
-              MKCoordinateRegion(
-                  center: CLLocationCoordinate2D(
-                      latitude: city.coordinates.latitude,
-                      longitude: city.coordinates.longitude
-                  ),
-                  span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-              )
-          )
-      }
+        cameraPosition = .region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(
+                    latitude: city.coordinates.latitude,
+                    longitude: city.coordinates.longitude
+                ),
+                span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            )
+        )
+    }
 }

@@ -6,16 +6,14 @@
 //
 import SwiftUI
 
-struct MainView: View {
-    @StateObject private var viewModel: CityListViewModelImpl
+struct MainView<ViewModel>:View where ViewModel: CityListViewModel {
+    @StateObject private var viewModel: ViewModel
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State private var isListVisible: Bool = true
-    @State private var navigationPath = NavigationPath()
-    @State private var selectedCity : City?
 
-    init(viewModel: CityListViewModelImpl) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    init(viewModel: @autoclosure @escaping () -> ViewModel) {
+       self._viewModel = StateObject(wrappedValue: viewModel())
+     }
 
     var body: some View {
         GeometryReader { geometry in
@@ -30,7 +28,7 @@ struct MainView: View {
 
                                     isListVisible = true
                                     if !isLandscape {
-                                        viewModel.selectedCity = nil
+                                        viewModel.setSelectedCity(nil)
                                     }
 
                                 }) {
