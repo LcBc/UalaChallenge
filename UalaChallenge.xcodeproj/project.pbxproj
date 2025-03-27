@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FDA4E7E62D94CD24007C627E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FDA4E7E52D94CD24007C627E /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		FD6BA1C72D8CADB50017D305 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		FD6BA1B62D8CADB20017D305 /* UalaChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UalaChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD6BA1C62D8CADB50017D305 /* UalaChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UalaChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD6BA1D02D8CADB50017D305 /* UalaChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UalaChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDA4E7E52D94CD24007C627E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		FD6BA1AD2D8CADB20017D305 = {
 			isa = PBXGroup;
 			children = (
+				FDA4E7E52D94CD24007C627E /* README.md */,
 				FD6BA1B82D8CADB20017D305 /* UalaChallenge */,
 				FD6BA1C92D8CADB50017D305 /* UalaChallengeTests */,
 				FD6BA1D32D8CADB50017D305 /* UalaChallengeUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDA4E7E62D94CD24007C627E /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

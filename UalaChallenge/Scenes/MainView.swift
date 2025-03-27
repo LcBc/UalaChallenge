@@ -12,8 +12,8 @@ struct MainView<ViewModel>:View where ViewModel: CityListViewModel {
     @State private var isListVisible: Bool = true
 
     init(viewModel: @autoclosure @escaping () -> ViewModel) {
-       self._viewModel = StateObject(wrappedValue: viewModel())
-     }
+        self._viewModel = StateObject(wrappedValue: viewModel())
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -80,6 +80,15 @@ struct MainView<ViewModel>:View where ViewModel: CityListViewModel {
                             Spacer()
                         }
                     }
+                }
+
+                if viewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(1.5) // Make it larger
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.black.opacity(0.5)) // Semi-transparent background
+                        .edgesIgnoringSafeArea(.all)
                 }
             }
             .onChange(of: viewModel.selectedCity) {

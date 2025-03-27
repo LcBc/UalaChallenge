@@ -19,7 +19,7 @@ struct FavoriteButton<ViewModel>: View where ViewModel: CityListViewModel {
         }) {
             Image(systemName: isFavorite ? "star.fill" : "star")
                 .foregroundColor(isFavorite ? .yellow : .gray)
-        }
+        }.accessibilityIdentifier("\(city.name) \(city.country)-favorite-button")
         .onAppear {
             Task {
                 isFavorite = await isCityFavorite()

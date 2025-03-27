@@ -62,6 +62,7 @@ struct CityMapView: View {
         }
         .navigationTitle(city.name)
         .navigationBarTitleDisplayMode(.inline)
+        .accessibilityIdentifier("CityMapView")
     }
     
     private func updateCameraPosition() {

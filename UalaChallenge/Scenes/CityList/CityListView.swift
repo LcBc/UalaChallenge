@@ -35,7 +35,7 @@ struct CityListView<ViewModel>: View where ViewModel: CityListViewModel {
                 )
             ) {
                 Text("Show Favorites Only")
-            }
+            }.accessibilityIdentifier("FavoriteToggle")
             .padding(.horizontal)
             .background(Color(UIColor.systemBackground))
             Text(
@@ -62,27 +62,21 @@ struct CityListView<ViewModel>: View where ViewModel: CityListViewModel {
                             )
                             .padding(.horizontal)
                             .padding(.vertical, 4)
-                        }
+                        }.accessibilityIdentifier("\(city.name) \(city.country)-cell")
                     }
                 }
                 .background(
                     Color(
                         UIColor.systemGroupedBackground
                     )
-                )
+                ).accessibilityIdentifier("CityList")
             }
             .background(Color(UIColor.systemBackground))
         }.onChange(
             of: searchText
         ) {
             viewModel.searchCity(text: searchText)
-        }
-        .onAppear {
-            Task {
-                try? await viewModel.getCities()
-            }
-        }
-        .background(Color(UIColor.systemBackground))
+        }.background(Color(UIColor.systemBackground))
     }
 }
 

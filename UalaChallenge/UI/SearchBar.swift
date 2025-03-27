@@ -16,6 +16,7 @@ struct SearchBar: View {
                 Image(systemName: "magnifyingglass")
                 TextField("Search", text: $text)
                     .foregroundColor(.primary)
+                    .accessibilityIdentifier("customSearchBar")
 
                 if !text.isEmpty {
                     Button(action: {

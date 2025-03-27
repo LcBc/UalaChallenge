@@ -11,6 +11,7 @@ import Foundation
 
 @MainActor
 protocol CityListViewModel: ObservableObject {
+    var isLoading: Bool { get }
     var selectedCity: City? { get }
     var filteredCities: [City] { get }
     var errorMessage: String? { get }
@@ -31,7 +32,9 @@ protocol CityListViewModel: ObservableObject {
 
 final class CityListViewModelImpl: ObservableObject, CityListViewModel, TestableNamespaceConvertible {
 
-    // public funcs
+    // public vars
+    @Published
+    private(set) var isLoading: Bool = true
     @Published
     private(set) var selectedCity: City?
     @Published
@@ -87,15 +90,29 @@ final class CityListViewModelImpl: ObservableObject, CityListViewModel, Testable
     @discardableResult
     func getCities() async throws -> Task<Void, Never>? {
         getCitiesTask?.cancel()
-
+        isLoading = true
         let task = Task { [weak self] in
             do {
+                guard !(self?.getCitiesTask?.isCancelled ?? true) else {
+                    self?.isLoading = false
+                    return
+                }
                 let unsortedCities = try await self?.cityApiService.fetchCities()
+                guard !(self?.getCitiesTask?.isCancelled ?? true) else {
+                    self?.isLoading = false
+                    return
+                }
                 self?.cities = self?.sort(cities: unsortedCities ?? []) ?? []
                 self?.filteredCities = self?.cities ?? []
+                self?.isLoading = false
             } catch {
+                guard !(self?.getCitiesTask?.isCancelled ?? true) else {
+                    self?.isLoading = false
+                    return
+                }
                 self?.cities = []
                 self?.errorMessage = error.localizedDescription
+                self?.isLoading = false
             }
         }
         getCitiesTask = task
