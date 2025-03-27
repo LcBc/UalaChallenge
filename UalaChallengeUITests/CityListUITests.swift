@@ -21,9 +21,10 @@ final class CityListViewUITests: XCTestCase {
     func testDefaultState() throws {
 
         // Given
-        let cityCell1 = app.buttons["New York USA-cell"]
-        let cityCell2 = app.buttons["Los Angeles USA-cell"]
-        let cityCell3 = app.buttons["New York Canada-cell"]
+        let collection = app.collectionViews["CityList"]
+        let cityCell1 = collection.buttons["New York USA-cell"]
+        let cityCell2 = collection.buttons["Los Angeles USA-cell"]
+        let cityCell3 = collection.buttons["New York Canada-cell"]
         let resultsText = app.staticTexts["Results: 3"]
 
 
@@ -43,8 +44,9 @@ final class CityListViewUITests: XCTestCase {
         searchField.tap()
         searchField.typeText("New York")
 
-        let cityCell1 = app.buttons["New York Canada-cell"]
-        let cityCell2 = app.buttons["New York USA-cell"]
+        let collection = app.collectionViews["CityList"]
+        let cityCell1 = collection.buttons["New York Canada-cell"]
+        let cityCell2 = collection.buttons["New York USA-cell"]
         let resultsText = app.staticTexts["Results: 2"]
 
 
@@ -77,7 +79,8 @@ final class CityListViewUITests: XCTestCase {
         toggle.tap()
 
         // When
-        let cityCell1 = app.buttons["New York Canada-cell"]
+        let collection = app.collectionViews["CityList"]
+        let cityCell1 = collection.buttons["New York Canada-cell"]
 
         // Then
         let resultsText = app.staticTexts["Results: 1"]
@@ -107,7 +110,8 @@ final class CityListViewUITests: XCTestCase {
 
     func testSelectCity() throws {
         // Given
-        let cityCell = app.buttons["New York USA-cell"]
+        let collection = app.collectionViews["CityList"]
+        let cityCell = collection.buttons["New York USA-cell"]
         XCTAssertTrue(cityCell.exists)
 
         // When
@@ -120,8 +124,9 @@ final class CityListViewUITests: XCTestCase {
 
     func testSetFavorite() throws {
         // Given
-        let cityCell1 = app.buttons["New York USA-cell"]
-        let cityCell2 = app.buttons["New York Canada-cell"]
+        let collection = app.collectionViews["CityList"]
+        let cityCell1 = collection.buttons["New York USA-cell"]
+        let cityCell2 = collection.buttons["New York Canada-cell"]
         let favorite = cityCell1.buttons["New York USA-favorite-button"]
         let toggle = app.switches["FavoriteToggle"].switches.firstMatch
         XCTAssertTrue(toggle.exists)
@@ -141,7 +146,8 @@ final class CityListViewUITests: XCTestCase {
 
     func testRemoveFavorite() throws {
         // Given
-        let cityCell = app.buttons["New York Canada-cell"]
+        let collection = app.collectionViews["CityList"]
+        let cityCell = collection.buttons["New York Canada-cell"]
         let favorite = cityCell.buttons["New York Canada-favorite-button"]
         let toggle = app.switches["FavoriteToggle"].switches.firstMatch
         XCTAssertTrue(toggle.exists)

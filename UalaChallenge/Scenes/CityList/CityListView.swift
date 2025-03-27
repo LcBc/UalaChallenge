@@ -36,42 +36,31 @@ struct CityListView<ViewModel>: View where ViewModel: CityListViewModel {
             ) {
                 Text("Show Favorites Only")
             }.accessibilityIdentifier("FavoriteToggle")
-            .padding(.horizontal)
-            .background(Color(UIColor.systemBackground))
+                .padding(.horizontal)
+                .background(Color(UIColor.systemBackground))
             Text(
                 "Results: \(viewModel.filteredCities.count)"
             )
             .font(.subheadline)
             .foregroundColor(.secondary)
             .padding(.horizontal)
-            ScrollView {
-                LazyVStack(
-                    spacing: 0
-                ) {
-                    ForEach(
-                        viewModel.filteredCities, id: \.id
-                    ) { city in
-                        Button(
-                            action: {
-                                viewModel.setSelectedCity(city)
-                            }
-                        ) {
-                            CityCell(
-                                city: city,
-                                viewModel: viewModel
-                            )
-                            .padding(.horizontal)
-                            .padding(.vertical, 4)
-                        }.accessibilityIdentifier("\(city.name) \(city.country)-cell")
-                    }
+            List{
+                ForEach(
+                    viewModel.filteredCities, id: \.id
+                ) { city in
+                    Button(
+                        action: {
+                            viewModel.setSelectedCity(city)
+                        }
+                    ) {
+                        CityCell(
+                            city: city,
+                            viewModel: viewModel
+                        )
+                    }.accessibilityIdentifier("\(city.name) \(city.country)-cell")
                 }
-                .background(
-                    Color(
-                        UIColor.systemGroupedBackground
-                    )
-                ).accessibilityIdentifier("CityList")
-            }
-            .background(Color(UIColor.systemBackground))
+            }.listRowSpacing(10)
+                .accessibilityIdentifier("CityList")
         }.onChange(
             of: searchText
         ) {
